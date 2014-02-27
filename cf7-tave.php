@@ -20,7 +20,7 @@ if ( !function_exists( 'add_action' ) ) {
 
 function cf7tave_plugin_action_links( $links, $file ) {
 	if ( $file == plugin_basename( dirname(__FILE__).'/cf7-tave.php' ) ) {
-		$links[] = '<a href="admin.php?page=cf7-tave/cf7-tave.php">'.__('Settings').'</a>';
+		$links[] = '<a href="admin.php?page=contact-form-7-tave-3-integration/cf7-tave.php">'.__('Settings').'</a>';
 	}
 
 	return $links;
@@ -126,7 +126,6 @@ add_action('admin_menu', 'tave_wpcf7_create_menu');
 function tave_wpcf7_create_menu() {
 
   	//create new top-level menu in wordpress
-	//add_menu_page('Tave Plugin Settings', 'Tave Settings', 'administrator', __FILE__, 'tave_wpcf7_settings_page',plugins_url('/images/icon.png', __FILE__));
 	if (function_exists('wpcf7_admin_menu')) {
 		add_submenu_page( 'wpcf7', __( 'T&aacute;ve Plugin Settings', 'wpcf7' ), __( 'T&aacute;ve Settings', 'wpcf7' ), 'administrator', __FILE__, 'tave_wpcf7_settings_page' ); 
 	}
