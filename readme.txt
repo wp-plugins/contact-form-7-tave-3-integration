@@ -3,7 +3,7 @@ Contributors: Ryan Rowell
 Tags: contact form 7, Táve
 Requires at least: 3.1.0
 Tested up to: 4
-Stable tag: 2014.11.10
+Stable tag: 2014.11.10b
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -38,7 +38,10 @@ No.
 
 == Changelog ==
 
-= 2014.10.29 =
+= 2014.11.10b =
+* Bug fix
+
+= 2014.11.10 =
 * DO NOT UPDATE UNLESS YOUR RUNNING TAVE 4 AS THIS WILL BREAK T3
 * set CURLOPT_FOLLOWLOCATION => true in anticipation of Táve 4 (sorry to those with safe_mode turned on).
 * Changed the endpoint for the lead for t4 updates
