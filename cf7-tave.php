@@ -4,7 +4,7 @@ Plugin Name: Contact Form 7 T&aacute;ve 3 Integration
 Plugin URI: http://rowellphoto.com/tave-contact-form-integration
 Description: Submit data to Tave from Contact Form 7 (this plugin requires <a href="http://contactform7.com/">Contact Form 7</a>) activate, use the same input field names (ex: FirstName, LastName) in your contact form, set your studio secret key in the options. Visit <a href="http://tave.com">T&aacute;ve.com</a> for the best studio management software available.
 Author: Ryan Rowell
-Version: 2014.07.17
+Version: 2014.10.29
 Author URI: http://www.rowellphoto.com
 */
 
@@ -48,7 +48,8 @@ function tave_send($contactForm) {
   
   $sendCF7 = get_option( 'send-CF7' );
   $sendTave = get_option( 'send-Tave' );
-  $url = "https://my.tave.com/WebService/CreateLead/{$studioID}";
+  $url = "https://tave.com/app/webservice/create-lead{$studioID}"; // t4 endpoint
+  
   $data = array();
   $convertFunction = function_exists('mb_convert_encoding');
   
@@ -89,7 +90,7 @@ function tave_send($contactForm) {
   }
   curl_setopt_array($curlHandle, array(
     CURLOPT_URL => $url,
-    CURLOPT_FOLLOWLOCATION => false,
+    CURLOPT_FOLLOWLOCATION => true,
     CURLOPT_RETURNTRANSFER => true,
     CURLOPT_POST => true,
     CURLOPT_POSTFIELDS => $data,
