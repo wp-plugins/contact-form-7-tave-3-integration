@@ -3,7 +3,7 @@ Contributors: Ryan Rowell
 Tags: contact form 7, Táve
 Requires at least: 3.1.0
 Tested up to: 4
-Stable tag: 2014.11.10b
+Stable tag: 2014.11.11
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -38,7 +38,7 @@ No.
 
 == Changelog ==
 
-= 2014.11.10b =
+= 2014.11.11 =
 * Bug fix
 
 = 2014.11.10 =
