@@ -3,7 +3,7 @@ Contributors: Ryan Rowell
 Tags: contact form 7, Táve
 Requires at least: 4
 Tested up to: 4
-Stable tag: 2014.11.12
+Stable tag: 2014.11.13
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -37,6 +37,9 @@ You can find a more detailed explanation and walkthrough here: http://www.rowell
 No.
 
 == Changelog ==
+
+= 2014.11.13 =
+* stupid bug. linked two checkboxes by accident. all fixed. (Thanks Eve Prime)
 
 = 2014.11.12 =
 * Minimum requirements set for WordPress 4 (makes it mandatory to update so you can see the new Contact Forms 7)

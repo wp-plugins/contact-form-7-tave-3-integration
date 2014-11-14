@@ -4,7 +4,7 @@ Plugin Name: Contact Form 7 T&aacute;ve 3 Integration
 Plugin URI: http://rowellphoto.com/tave-contact-form-integration
 Description: Submit data to Tave from Contact Form 7 (this plugin requires <a href="http://contactform7.com/">Contact Form 7</a>) activate, use the same input field names (ex: FirstName, LastName) in your contact form, set your studio secret key in the options. Visit <a href="http://tave.com">T&aacute;ve.com</a> for the best studio management software available.
 Author: Ryan Rowell
-Version: 2014.11.12
+Version: 2014.11.13
 Author URI: http://www.rowellphoto.com
 */
 
@@ -199,7 +199,7 @@ function tave_wpcf7_settings_page() {
 			</tr>
 			<tr valign="top">
 			<th scope="row">Error Logging</th>
-			<td><input type="checkbox" name="send-Tave" value="checked" <?php checked( 'checked', get_option( 'taveErrorLogFile' ) ); ?> />Check this box to log errors to a text file in the plugins folder. You can see what is written at the bottom of this page. WARNING this file can become huge, only turn this on when trying to figure out whats wrong with things not getting to Tave.</td>
+			<td><input type="checkbox" name="taveErrorLogFile" value="checked" <?php checked( 'checked', get_option( 'taveErrorLogFile' ) ); ?> />Check this box to log errors to a text file in the plugins folder. You can see what is written at the bottom of this page. WARNING this file can become huge, only turn this on when trying to figure out whats wrong with things not getting to Tave.</td>
 			</tr>
 		</table>
 		<?php submit_button(); ?>
