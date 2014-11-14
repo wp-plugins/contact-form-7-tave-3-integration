@@ -1,9 +1,9 @@
 === Plugin Name ===
 Contributors: Ryan Rowell
 Tags: contact form 7, Táve
-Requires at least: 3.1.0
+Requires at least: 4
 Tested up to: 4
-Stable tag: 2014.11.11
+Stable tag: 2014.11.12
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -37,6 +37,13 @@ You can find a more detailed explanation and walkthrough here: http://www.rowell
 No.
 
 == Changelog ==
+
+= 2014.11.12 =
+* Minimum requirements set for WordPress 4 (makes it mandatory to update so you can see the new Contact Forms 7)
+* added: error log checkbox to log all uses of the form to a txt file, only contains info needed to debug, no form data.
+* added: at the bottom of the settings page you can now see the same details the log file would contain but only from the last message sent.
+* removed set CURLOPT_FOLLOWLOCATION => true
+* sorry to report this wont fix current connection issues, but it will you let me know whats happening
 
 = 2014.11.11 =
 * Bug fix

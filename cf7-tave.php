@@ -4,7 +4,7 @@ Plugin Name: Contact Form 7 T&aacute;ve 3 Integration
 Plugin URI: http://rowellphoto.com/tave-contact-form-integration
 Description: Submit data to Tave from Contact Form 7 (this plugin requires <a href="http://contactform7.com/">Contact Form 7</a>) activate, use the same input field names (ex: FirstName, LastName) in your contact form, set your studio secret key in the options. Visit <a href="http://tave.com">T&aacute;ve.com</a> for the best studio management software available.
 Author: Ryan Rowell
-Version: 2014.11.11
+Version: 2014.11.12
 Author URI: http://www.rowellphoto.com
 */
 
@@ -32,10 +32,6 @@ add_filter( 'plugin_action_links', 'cf7tave_plugin_action_links', 10, 2 );
  * @return bool
  */
 function tave_send($contactForm) {
-  //ini_set('html_errors','on'); // Debugging
-  //ini_set('display_errors','on'); // Debugging
-  //ini_set('error_reporting',E_ALL); // Debugging
-
   $ignoreFields = array('_wpnonce'); // default fields
   $ignoreFields = array_merge($ignoreFields, explode(',', get_option('tave-ignore-fields')));
   $submission = WPCF7_Submission::get_instance();
@@ -48,6 +44,7 @@ function tave_send($contactForm) {
   
   $sendCF7 = get_option( 'send-CF7' );
   $sendTave = get_option( 'send-Tave' );
+  $taveErrorLogFile = get_option( 'taveErrorLogFile' );
   $url = "https://tave.com/app/webservice/create-lead/{$studioID}"; // t4 endpoint
   
   $data = array();
@@ -58,8 +55,9 @@ function tave_send($contactForm) {
   	$wpcf7 = WPCF7_ContactForm::get_current();
   	$wpcf7->skip_mail = true;
   }
+  
     
-  // go through each part of the forms contects and remove the fields you dont want from the options set in the admin.
+ // go through each part of the forms contects and remove the fields you dont want from the options set in the admin.
   foreach ($post as $key => $value) {
     if (in_array($key, $ignoreFields) || strpos($key, '_wpcf7') === 0) {
       continue;
@@ -90,7 +88,6 @@ function tave_send($contactForm) {
   }
   curl_setopt_array($curlHandle, array(
     CURLOPT_URL => $url,
-    CURLOPT_FOLLOWLOCATION => true,
     CURLOPT_RETURNTRANSFER => true,
     CURLOPT_POST => true,
     CURLOPT_POSTFIELDS => $data,
@@ -103,24 +100,31 @@ function tave_send($contactForm) {
 
   /* get the response from the Tave API */
   $response = trim(curl_exec($curlHandle));
-  $httpcode = curl_getinfo($curlHandle, CURLINFO_HTTP_CODE);
+  $curlInfo = curl_getinfo($curlHandle);
+  $curlError = curl_error($curlHandle);
 
-  //var_dump($response); // Debugging
-  //var_dump($data);
+  // put them together into one pretty package
+  $taveErrorLog = "\n=== " . date('r') . " ==============================="
+  . "\n\n-- curlInfo --\n" . var_export($curlInfo, true)
+  . "\n\n-- response --\n" . var_export($response, true)
+  . "\n\n-- CurlError --\n" . var_export($curlError, true);
 
-  /* the HTTP code will be 200 if there is a success */
+  update_option( 'taveErrorLog', $taveErrorLog );
+  $taveErrordir = plugin_dir_path( __FILE__ );
+  
+  if ($taveErrorLogFile == "checked") {
+  	file_put_contents($taveErrordir.'taveErrorLog.txt', $taveErrorLog, FILE_APPEND);
+  };
+ 
+   /* the HTTP code will be 200 if there is a success */
   if (curl_errno($curlHandle) == 0 && $httpcode == 200 && $response == 'OK') {
 	  curl_close($curlHandle);
 	  return true;
   } else {
-	//var_dump($curlHandle);
-	//var_dump($httpcode);
-	//var_dump($response);
-	//error_log("Tave Error: ".curl_errno($curlHandle).": $httpcode $response"); // Debugging
-	curl_close($curlHandle);
-	return false;
+	  curl_close($curlHandle);
+	  return false;
   }
-  //curl_close($curlHandle);
+  
 }
 
 
@@ -148,6 +152,10 @@ function tave_wpcf7_register_mysettings() {
 	register_setting( 'tave_wpcf7-settings-group', 'tave-ignore-fields' );
 	register_setting( 'tave_wpcf7-settings-group', 'send-CF7' );
 	register_setting( 'tave_wpcf7-settings-group', 'send-Tave' );
+	register_setting( 'tave_wpcf7-settings-group', 'taveErrorLog' );
+	register_setting( 'tave_wpcf7-settings-group', 'taveErrorLogFile' );
+
+
 }
 
 function tave_wpcf7_settings_page() {
@@ -188,6 +196,10 @@ function tave_wpcf7_settings_page() {
 			<tr valign="top">
 			<th scope="row">Don't Send T&aacute;ve email?</th>
 			<td><input type="checkbox" name="send-Tave" value="checked" <?php checked( 'checked', get_option( 'send-Tave' ) ); ?> />Check this box to stop receiving the T&aacute;ve email.</td>
+			</tr>
+			<tr valign="top">
+			<th scope="row">Error Logging</th>
+			<td><input type="checkbox" name="send-Tave" value="checked" <?php checked( 'checked', get_option( 'taveErrorLogFile' ) ); ?> />Check this box to log errors to a text file in the plugins folder. You can see what is written at the bottom of this page. WARNING this file can become huge, only turn this on when trying to figure out whats wrong with things not getting to Tave.</td>
 			</tr>
 		</table>
 		<?php submit_button(); ?>
@@ -239,5 +251,23 @@ Their Message:
 			</div>
 			</div>
 	</div>
+	<div class="postbox-container">
+		<div class="postbox">
+			<div class="inside">
+				<h3 style="padding:5px;">Stuff needed for trouble shooting</h3>
+				<pre><?php echo 'Curl: ', function_exists('curl_version') ? 'Enabled' : 'Disabled'; ?></pre>
+				<pre><?php 
+					if (function_exists('curl_version')) {
+					$curlVersion = curl_version();
+					echo var_export($curlVersion, true);
+					} 
+					?></pre>
+				<pre>
+					<?php echo get_option('taveErrorLog'); ?>
+				</pre>
+			</div>
+		</div>
+	</div>
+
 </div>
 <?php } ?>
