@@ -3,7 +3,7 @@ Contributors: Ryan Rowell
 Tags: contact form 7, Táve
 Requires at least: 4
 Tested up to: 4
-Stable tag: 2014.11.13
+Stable tag: 2014.12.03
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -37,6 +37,10 @@ You can find a more detailed explanation and walkthrough here: http://www.rowell
 No.
 
 == Changelog ==
+
+= 2014.12.03 =
+* Removed the error logging to a file, no need to have that. 
+* Bug fix, wasn't looking for the space after the comma in the separate fields to be ignored. So now all fields (not just the first one) added to this list will be ignored and left un-sent to tave. 
 
 = 2014.11.13 =
 * stupid bug. linked two checkboxes by accident. all fixed. (Thanks Eve Prime)

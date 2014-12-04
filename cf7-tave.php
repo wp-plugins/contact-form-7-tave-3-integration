@@ -33,7 +33,7 @@ add_filter( 'plugin_action_links', 'cf7tave_plugin_action_links', 10, 2 );
  */
 function tave_send($contactForm) {
   $ignoreFields = array('_wpnonce'); // default fields
-  $ignoreFields = array_merge($ignoreFields, explode(',', get_option('tave-ignore-fields')));
+  $ignoreFields = array_merge($ignoreFields, explode(', ', get_option('tave-ignore-fields')));
   $submission = WPCF7_Submission::get_instance();
   $post = $submission->get_posted_data(); 
   $apiKey = get_option('tave-api-key');
@@ -44,7 +44,7 @@ function tave_send($contactForm) {
   
   $sendCF7 = get_option( 'send-CF7' );
   $sendTave = get_option( 'send-Tave' );
-  $taveErrorLogFile = get_option( 'taveErrorLogFile' );
+
   $url = "https://tave.com/app/webservice/create-lead/{$studioID}"; // t4 endpoint
   
   $data = array();
@@ -110,12 +110,7 @@ function tave_send($contactForm) {
   . "\n\n-- CurlError --\n" . var_export($curlError, true);
 
   update_option( 'taveErrorLog', $taveErrorLog );
-  $taveErrordir = plugin_dir_path( __FILE__ );
-  
-  if ($taveErrorLogFile == "checked") {
-  	file_put_contents($taveErrordir.'taveErrorLog.txt', $taveErrorLog, FILE_APPEND);
-  };
- 
+   
    /* the HTTP code will be 200 if there is a success */
   if (curl_errno($curlHandle) == 0 && $httpcode == 200 && $response == 'OK') {
 	  curl_close($curlHandle);
@@ -153,7 +148,6 @@ function tave_wpcf7_register_mysettings() {
 	register_setting( 'tave_wpcf7-settings-group', 'send-CF7' );
 	register_setting( 'tave_wpcf7-settings-group', 'send-Tave' );
 	register_setting( 'tave_wpcf7-settings-group', 'taveErrorLog' );
-	register_setting( 'tave_wpcf7-settings-group', 'taveErrorLogFile' );
 
 
 }
@@ -187,7 +181,7 @@ function tave_wpcf7_settings_page() {
 			</tr>
 			<tr valign="top">
 			<th scope="row">Exclude Input Field Names:</th>
-			<td><input type="text" name="tave-ignore-fields" value="<?php echo get_option('tave-ignore-fields'); ?>" size="50"/><br>These are input fields you dont want to pass to T&aacute;ve. Perhaps you have form questions that you dont want in your T&aacute;ve database, you just need to enter their field names with a comma seperating them. ex: FirstName, MothersName........  </td>
+			<td><input type="text" name="tave-ignore-fields" value="<?php echo get_option('tave-ignore-fields'); ?>" size="50"/><br>These are input fields you dont want to pass to T&aacute;ve. Perhaps you have form questions that you dont want in your T&aacute;ve database, you just need to enter their field names with a comma seperating them. ex: FirstName, MothersName, etc.  </td>
 			</tr>
 			<tr valign="top">
 			<th scope="row">Don't Send contact form 7 email?</th>
@@ -196,10 +190,6 @@ function tave_wpcf7_settings_page() {
 			<tr valign="top">
 			<th scope="row">Don't Send T&aacute;ve email?</th>
 			<td><input type="checkbox" name="send-Tave" value="checked" <?php checked( 'checked', get_option( 'send-Tave' ) ); ?> />Check this box to stop receiving the T&aacute;ve email.</td>
-			</tr>
-			<tr valign="top">
-			<th scope="row">Error Logging</th>
-			<td><input type="checkbox" name="taveErrorLogFile" value="checked" <?php checked( 'checked', get_option( 'taveErrorLogFile' ) ); ?> />Check this box to log errors to a text file in the plugins folder. You can see what is written at the bottom of this page. WARNING this file can become huge, only turn this on when trying to figure out whats wrong with things not getting to Tave.</td>
 			</tr>
 		</table>
 		<?php submit_button(); ?>
