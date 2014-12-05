@@ -1,10 +1,10 @@
 <?php
 /*
-Plugin Name: Contact Form 7 T&aacute;ve 3 Integration
+Plugin Name: Contact Form 7 T&aacute;ve Integration
 Plugin URI: http://rowellphoto.com/tave-contact-form-integration
 Description: Submit data to Tave from Contact Form 7 (this plugin requires <a href="http://contactform7.com/">Contact Form 7</a>) activate, use the same input field names (ex: FirstName, LastName) in your contact form, set your studio secret key in the options. Visit <a href="http://tave.com">T&aacute;ve.com</a> for the best studio management software available.
 Author: Ryan Rowell
-Version: 2014.12.03
+Version: 2014.12.04
 Author URI: http://www.rowellphoto.com
 */
 
@@ -173,11 +173,11 @@ function tave_wpcf7_settings_page() {
 		<table class="form-table">
 			<tr valign="top">
 			<th scope="row">T&aacute;ve Secret Key:</th>
-			<td><input type="text" name="tave-api-key" value="<?php echo get_option('tave-api-key'); ?>" size="50"/><br>Your secret key can be found in your T&aacute;ve dashboard in Settings>New Lead API. <a href="https://my.tave.com/Settings/NewLeadAPI">or here if your logged into T&aacute;ve.com</a></td>
+			<td><input type="text" name="tave-api-key" value="<?php echo get_option('tave-api-key'); ?>" size="50"/><br>Your secret key can be found in your T&aacute;ve dashboard in Settings>New Lead API. <a href="https://tave.com/app/settings/new-lead-api">or here if your logged into T&aacute;ve.com</a></td>
 			</tr>
 			<tr valign="top">
 			<th scope="row">T&aacute;ve Studio ID:</th>
-			<td><input type="text" name="tave-studio-id" value="<?php echo get_option('tave-studio-id'); ?>" size="50"/><br>Your Studio ID can be found in your T&aacute;ve dashboard in Settings>New Lead API. <a href="https://my.tave.com/Settings/NewLeadAPI">or here if your logged into T&aacute;ve.com</a></td>
+			<td><input type="text" name="tave-studio-id" value="<?php echo get_option('tave-studio-id'); ?>" size="50"/><br>Your Studio ID can be found in your T&aacute;ve dashboard in Settings>New Lead API. <a href="https://tave.com/app/settings/new-lead-api">or here if your logged into T&aacute;ve.com</a></td>
 			</tr>
 			<tr valign="top">
 			<th scope="row">Exclude Input Field Names:</th>

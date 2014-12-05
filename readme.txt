@@ -3,7 +3,7 @@ Contributors: Ryan Rowell
 Tags: contact form 7, Táve
 Requires at least: 4
 Tested up to: 4
-Stable tag: 2014.12.03
+Stable tag: 2014.12.04
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -37,6 +37,10 @@ You can find a more detailed explanation and walkthrough here: http://www.rowell
 No.
 
 == Changelog ==
+
+= 2014.12.03 =
+* Changed the name from Táve 3 to just Táve, less confusion this way. 
+* Also updated the links inside the plugin to the new lead api page in the settings. 
 
 = 2014.12.03 =
 * Removed the error logging to a file, no need to have that. 
