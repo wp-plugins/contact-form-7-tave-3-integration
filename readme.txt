@@ -1,8 +1,8 @@
 === Plugin Name ===
 Contributors: Ryan Rowell
 Tags: contact form 7, Táve
-Requires at least: 4
-Tested up to: 4
+Requires at least: 4.2
+Tested up to: 4.2.1
 Stable tag: 2014.12.04
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
